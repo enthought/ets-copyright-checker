@@ -1,4 +1,5 @@
 build: false
+skip_branch_with_pr: true
 platform: x64
 
 environment:
@@ -8,6 +9,9 @@ environment:
 
   matrix:
     - RUNTIME: '3.6'
+
+matrix:
+  fast_finish: true
 
 cache:
   - C:\Users\appveyor\.cache -> appveyor-clean-cache.txt
