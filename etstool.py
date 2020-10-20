@@ -119,7 +119,7 @@ def flake8(runtime, environment):
     cmd = "edm run -e {environment} -- python -m flake8 ".format(**parameters) 
     cmd += " ".join(FLAKE8_TARGETS)
 
-    if subprocess.call(cmd):
+    if subprocess.call(cmd.split()):
         click.echo()
         raise click.ClickException("Flake8 check failed.")
     else:
