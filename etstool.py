@@ -50,7 +50,7 @@ import click
 
 # Directories and files that should be checked for flake8-cleanness.
 FLAKE8_TARGETS = [
-    "ets-copyright-checker",
+    "ets_copyright_checker",
     "etstool.py",
     "setup.py",
 ]
@@ -101,7 +101,7 @@ def test(runtime, environment):
     parameters = get_parameters(runtime, environment)
     commands = [
         "edm run -e {environment} -- python -Xfaulthandler -m unittest "
-        "discover -v ets-copyright-checker",
+        "discover -v ets_copyright_checker",
     ]
     click.echo("Running tests in '{environment}'".format(**parameters))
     execute(commands, parameters)
@@ -116,7 +116,7 @@ def flake8(runtime, environment):
     Run flake8 on all Python files.
     """
     parameters = get_parameters(runtime, environment)
-    cmd = "edm run -e {environment} -- python -m flake8".format(**parameters) 
+    cmd = "edm run -e {environment} -- python -m flake8 ".format(**parameters) 
     cmd += " ".join(FLAKE8_TARGETS)
 
     if subprocess.call(cmd):
