@@ -1,0 +1,29 @@
+language: generic
+dist: xenial
+
+env:
+  global:
+    - INSTALL_EDM_VERSION=3.0.1
+      PYTHONUNBUFFERED="1"
+
+matrix:
+  include:
+    - env: RUNTIME=3.6
+    - os: osx
+      env: RUNTIME=3.6
+  fast_finish: true
+
+cache:
+  directories:
+    - "~/.cache"
+
+before_install:
+  - mkdir -p "${HOME}/.cache/download"
+  - if [[ ${TRAVIS_OS_NAME} == 'linux' ]]; then sh -e ./install-edm-linux.sh; export PATH="${HOME}/edm/bin:${PATH}"; fi
+  - if [[ ${TRAVIS_OS_NAME} == 'osx' ]]; then sh -e ./install-edm-osx.sh; export PATH="${PATH}:/usr/local/bin"; fi
+  - edm install -y wheel click
+install:
+  - edm run -- python etstool.py install --runtime=${RUNTIME}
+script:
+  - edm run -- python etstool.py flake8 --runtime=${RUNTIME}
+  - edm run -- python etstool.py test --runtime=${RUNTIME}
