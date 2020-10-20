@@ -81,11 +81,12 @@ def install(runtime, environment, editable):
     install_ets_copyright_checker += "."
 
     commands = [
-            "edm environments create {environment} --force --version={runtime}",
+            "edm environments create {environment}"
+            " --force --version={runtime}",
             "edm install -y -e {environment} flake8",
             install_ets_copyright_checker
         ]
-    
+
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
 
@@ -116,7 +117,7 @@ def flake8(runtime, environment):
     Run flake8 on all Python files.
     """
     parameters = get_parameters(runtime, environment)
-    cmd = "edm run -e {environment} -- python -m flake8 ".format(**parameters) 
+    cmd = "edm run -e {environment} -- python -m flake8 ".format(**parameters)
     cmd += " ".join(FLAKE8_TARGETS)
 
     if subprocess.call(cmd.split()):
@@ -138,9 +139,8 @@ def get_parameters(runtime, environment):
         "environment": environment,
     }
     if environment is None:
-        parameters["environment"] = "ets-copyright-checker-test-{runtime}".format(
-            **parameters
-        )
+        parameters["environment"] = \
+            "ets-copyright-checker-test-{runtime}".format(**parameters)
     return parameters
 
 
