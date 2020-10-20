@@ -23,7 +23,7 @@ init:
 
 install:
   - install-edm-windows.cmd
-  - edm install -y -e bootstrap click setuptools
+  - edm install -y wheel click
   - edm run -- python etstool.py install --runtime=%RUNTIME%
 
 test_script:
