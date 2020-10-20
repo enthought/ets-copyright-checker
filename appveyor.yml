@@ -31,5 +31,5 @@ install:
   - edm run -- python etstool.py install --runtime=%RUNTIME%
 
 test_script:
-  - edm run -- python etstool.py flake8 --runtime=${RUNTIME}
-  - edm run -- python etstool.py test --runtime=${RUNTIME}
+  - edm run -- python etstool.py flake8 --runtime=%RUNTIME%
+  - edm run -- python etstool.py test --runtime=%RUNTIME%
