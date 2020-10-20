@@ -92,6 +92,9 @@ def install(runtime, environment, editable):
     click.echo("Done install")
 
 
+@cli.command()
+@click.option("--runtime", default="3.6", help="Python version to use")
+@click.option("--environment", default=None, help="EDM environment to use")
 def test(runtime, environment):
     """ Run the test suite in a given environment.
     """
@@ -105,6 +108,9 @@ def test(runtime, environment):
     click.echo("Done test")
 
 
+@cli.command()
+@click.option("--runtime", default="3.6", help="Python version to use")
+@click.option("--environment", default=None, help="EDM environment to use")
 def flake8(runtime, environment):
     """
     Run flake8 on all Python files.
