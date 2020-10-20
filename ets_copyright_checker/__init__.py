@@ -19,7 +19,7 @@ a flake8 wrapper that makes the check available as a flake8 plugin.
 import datetime
 import re
 
-#: Regular expression to match strings of the form "1985" or of the form
+#: Regular expression to match things of the form "1985" or of the form
 #: "1985-1999".
 YEAR_RANGE = r"(?P<start_year>\d{4})(?:\-(?P<end_year>\d{4}))?"
 
