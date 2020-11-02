@@ -31,10 +31,10 @@ if __name__ == "__main__":
         long_description=get_long_description(),
         long_description_content_type="text/x-rst",
         install_requires=["flake8"],
-        packages=["ets_copyright_checker", "ets_copyright_checker.tests"],
+        packages=["flake8_ets", "flake8_ets.tests"],
         entry_points={
             "flake8.extension": [
-                "H = ets_copyright_checker:CopyrightHeaderExtension",
+                "H = flake8_ets:CopyrightHeaderExtension",
             ],
         },
     )
