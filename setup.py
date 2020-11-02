@@ -11,11 +11,25 @@
 import setuptools
 
 
+def get_long_description():
+    """ Read long description from README.rst. """
+    with open("README.rst", "r", encoding="utf-8") as readme:
+        return readme.read()
+
+
 if __name__ == "__main__":
     setuptools.setup(
         name="ets_copyright_checker",
         version="1.0.0",
-        description="flake8 plugin for checking copyright headers",
+        author="Enthought",
+        author_email="info@enthought.com",
+        url="https://github.com/enthought/ets-copyright-checker",
+        description=(
+            "flake8 plugin for checking Enthought Tool Suite copyright "
+            "headers."
+        ),
+        long_description=get_long_description(),
+        long_description_content_type="text/x-rst",
         install_requires=["flake8"],
         packages=["ets_copyright_checker", "ets_copyright_checker.tests"],
         entry_points={
