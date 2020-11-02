@@ -10,7 +10,7 @@
 
 import unittest
 
-from ets_copyright_checker import (
+from flake8_ets import (
     BadCopyrightEndYearError,
     copyright_header,
     MissingCopyrightHeaderError,

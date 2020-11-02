@@ -50,7 +50,7 @@ import click
 
 # Directories and files that should be checked for flake8-cleanness.
 FLAKE8_TARGETS = [
-    "ets_copyright_checker",
+    "flake8_ets",
     "etstool.py",
     "setup.py",
 ]
@@ -75,16 +75,16 @@ def install(runtime, environment, editable):
     """
     parameters = get_parameters(runtime, environment)
     # Install local source
-    install_ets_copyright_checker = "edm run -e {environment} -- pip install "
+    install_flake8_ets = "edm run -e {environment} -- pip install "
     if editable:
-        install_ets_copyright_checker += "--editable "
-    install_ets_copyright_checker += "."
+        install_flake8_ets += "--editable "
+    install_flake8_ets += "."
 
     commands = [
             "edm environments create {environment}"
             " --force --version={runtime}",
             "edm install -y -e {environment} flake8",
-            install_ets_copyright_checker
+            install_flake8_ets
         ]
 
     click.echo("Creating environment '{environment}'".format(**parameters))
@@ -102,7 +102,7 @@ def test(runtime, environment):
     parameters = get_parameters(runtime, environment)
     commands = [
         "edm run -e {environment} -- python -Xfaulthandler -m unittest "
-        "discover -v ets_copyright_checker",
+        "discover -v flake8_ets",
     ]
     click.echo("Running tests in '{environment}'".format(**parameters))
     execute(commands, parameters)
@@ -140,7 +140,7 @@ def get_parameters(runtime, environment):
     }
     if environment is None:
         parameters["environment"] = \
-            "ets-copyright-checker-test-{runtime}".format(**parameters)
+            "flake8-ets-test-{runtime}".format(**parameters)
     return parameters
 
 
