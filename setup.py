@@ -19,7 +19,7 @@ def get_long_description():
 
 if __name__ == "__main__":
     setuptools.setup(
-        name="ets_copyright_checker",
+        name="flake8-ets",
         version="1.0.0",
         author="Enthought",
         author_email="info@enthought.com",
