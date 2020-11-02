@@ -1,4 +1,7 @@
-Enthought Tool Suite Copyright Header Checker
-=============================================
+Enthought Tool Suite Flake8 plugin
+==================================
 
-`Flake8 <http://pypi.python.org/project/flake8>`_ plugin for checking copyright headers in Enthought Tool Suite (`ETS <https://docs.enthought.com/ets>`_).
+A `Flake8 <http://pypi.python.org/project/flake8>`_ plugin for Enthought Tool
+Suite (`ETS <https://docs.enthought.com/ets>`_).
+
+Currently the plugin checks for ETS copyright headers.
