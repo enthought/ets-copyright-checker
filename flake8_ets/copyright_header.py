@@ -19,6 +19,8 @@ a flake8 wrapper that makes the check available as a flake8 plugin.
 import datetime
 import re
 
+from flake8_ets import __version__
+
 #: Regular expression to match strings of the form "1985" or of the form
 #: "1985-1999".
 YEAR_RANGE = r"(?P<start_year>\d{4})(?:\-(?P<end_year>\d{4}))?"
@@ -171,8 +173,13 @@ class CopyrightHeaderExtension(object):
     Flake8 extension for checking ETS copyright headers.
     """
 
+    #: Name of the plugin, which appears when one does 'flake8 --version'
+    #: on the command line.
     name = "headers"
-    version = "1.0.0"
+
+    #: Version of the extension.
+    #: It does not necessarily have to be the same as the package version.
+    version = __version__
 
     def __init__(self, tree, lines):
         self.lines = lines
