@@ -31,10 +31,15 @@ if __name__ == "__main__":
         long_description=get_long_description(),
         long_description_content_type="text/x-rst",
         install_requires=["flake8"],
-        packages=["flake8_ets", "flake8_ets.tests"],
+        packages=setuptools.find_packages(
+            include=[
+                "flake8_ets",
+                "flake8_ets.*",
+            ],
+        ),
         entry_points={
             "flake8.extension": [
-                "H = flake8_ets:CopyrightHeaderExtension",
+                "H = flake8_ets.copyright_header:CopyrightHeaderExtension",
             ],
         },
     )
