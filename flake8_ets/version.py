@@ -13,4 +13,4 @@ Version information for the flake8_ets package
 """
 
 #: Full version of the flake8_ets package, as a string
-version = "1.0.0"
+version = "1.1.0.dev0"
