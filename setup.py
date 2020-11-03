@@ -8,7 +8,16 @@
 #
 # Thanks for using Enthought open source!
 
+import os
+import runpy
 import setuptools
+
+
+def get_version():
+    """ Extract version string from version.py. """
+    version_filename = os.path.join("flake8_ets", "version.py")
+    info = runpy.run_path(version_filename)
+    return info["version"]
 
 
 def get_long_description():
@@ -20,7 +29,7 @@ def get_long_description():
 if __name__ == "__main__":
     setuptools.setup(
         name="flake8-ets",
-        version="1.0.0",
+        version=get_version(),
         author="Enthought",
         author_email="info@enthought.com",
         url="https://github.com/enthought/ets-copyright-checker",
@@ -31,10 +40,15 @@ if __name__ == "__main__":
         long_description=get_long_description(),
         long_description_content_type="text/x-rst",
         install_requires=["flake8"],
-        packages=["flake8_ets", "flake8_ets.tests"],
+        packages=setuptools.find_packages(
+            include=[
+                "flake8_ets",
+                "flake8_ets.*",
+            ],
+        ),
         entry_points={
             "flake8.extension": [
-                "H = flake8_ets:CopyrightHeaderExtension",
+                "H = flake8_ets.copyright_header:CopyrightHeaderExtension",
             ],
         },
     )

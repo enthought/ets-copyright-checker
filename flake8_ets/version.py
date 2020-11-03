@@ -8,6 +8,9 @@
 #
 # Thanks for using Enthought open source!
 
-from flake8_ets.version import version as __version__
+"""
+Version information for the flake8_ets package
+"""
 
-__all__ = ["__version__"]
+#: Full version of the flake8_ets package, as a string
+version = "1.0.0.dev0"
