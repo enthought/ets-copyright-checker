@@ -187,7 +187,7 @@ def locate_edm():
         )
 
     # Resolve edm.bat on Windows.
-    if sys.platform == "win32" and os.path.basename(edm) == "edm.bat":
+    if sys.platform == "win32" and os.path.basename(edm).lower() == "edm.bat":
         edm = os.path.join(os.path.dirname(edm), "embedded", "edm.exe")
 
     return edm
