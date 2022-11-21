@@ -1,4 +1,4 @@
-# (C) Copyright 2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2020-2022 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -42,6 +42,8 @@ Tests can still be run via the usual means in other environments if that suits
 a developer's purpose.
 """
 
+import os
+import shutil
 import subprocess
 import sys
 
@@ -75,15 +77,15 @@ def install(runtime, environment, editable):
     """
     parameters = get_parameters(runtime, environment)
     # Install local source
-    install_flake8_ets = "edm run -e {environment} -- pip install "
+    install_flake8_ets = "{edm} run -e {environment} -- pip install "
     if editable:
         install_flake8_ets += "--editable "
     install_flake8_ets += "."
 
     commands = [
-            "edm environments create {environment}"
+            "{edm} environments create {environment}"
             " --force --version={runtime}",
-            "edm install -y -e {environment} flake8",
+            "{edm} install -y -e {environment} flake8",
             install_flake8_ets
         ]
 
@@ -101,7 +103,7 @@ def test(runtime, environment):
     """
     parameters = get_parameters(runtime, environment)
     commands = [
-        "edm run -e {environment} -- python -Xfaulthandler -m unittest "
+        "{edm} run -e {environment} -- python -Xfaulthandler -m unittest "
         "discover -v flake8_ets",
     ]
     click.echo("Running tests in '{environment}'".format(**parameters))
@@ -117,7 +119,8 @@ def flake8(runtime, environment):
     Run flake8 on all Python files.
     """
     parameters = get_parameters(runtime, environment)
-    cmd = "edm run -e {environment} -- python -m flake8 ".format(**parameters)
+    cmd = "{edm} run -e {environment} -- python -m flake8 ".format(
+        **parameters)
     cmd += " ".join(FLAKE8_TARGETS)
 
     if subprocess.call(cmd.split()):
@@ -131,10 +134,11 @@ def flake8(runtime, environment):
 # Utility routines
 # ----------------------------------------------------------------------------
 
-
 def get_parameters(runtime, environment):
     """ Set up parameters dictionary for format() substitution """
+
     parameters = {
+        "edm": locate_edm(),
         "runtime": runtime,
         "environment": environment,
     }
@@ -154,6 +158,39 @@ def execute(commands, parameters):
         except subprocess.CalledProcessError as exc:
             print(exc)
             sys.exit(1)
+
+
+def locate_edm():
+    """
+    Locate an EDM executable if it exists, else raise an exception.
+
+    Returns the first EDM executable found on the path. On Windows, if that
+    executable turns out to be the "edm.bat" batch file, replaces it with the
+    executable that it wraps: the batch file adds another level of command-line
+    mangling that interferes with things like specifying version restrictions.
+
+    Returns
+    -------
+    edm : str
+        Path to the EDM executable to use.
+
+    Raises
+    ------
+    click.ClickException
+        If no EDM executable is found in the path.
+    """
+    edm = shutil.which("edm")
+    if edm is None:
+        raise click.ClickException(
+            "This script requires EDM, but no EDM executable "
+            "was found on the path."
+        )
+
+    # Resolve edm.bat on Windows.
+    if sys.platform == "win32" and os.path.basename(edm).lower() == "edm.bat":
+        edm = os.path.join(os.path.dirname(edm), "embedded", "edm.exe")
+
+    return edm
 
 
 if __name__ == "__main__":
