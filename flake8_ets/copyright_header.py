@@ -188,7 +188,7 @@ class CopyrightHeaderExtension(object):
     def add_options(cls, option_manager):
         option_manager.add_option(
             "--copyright-end-year",
-            type="int",
+            type=int,
             metavar="year",
             default=datetime.datetime.today().year,
             parse_from_config=True,
