@@ -26,6 +26,9 @@ jobs:
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        # Fail fast with a clear error rather than prompting/hanging if the
+        # credentials above are missing.
+        TWINE_NON_INTERACTIVE: "1"
       run: |
         python -m twine check --strict dist/*
         python -m twine upload dist/*
