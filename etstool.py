@@ -63,6 +63,13 @@ FLAKE8_TARGETS = [
 # bumped (together with the copyright headers themselves) periodically.
 EXPECTED_COPYRIGHT_END_YEAR = 2022
 
+# On Linux, EDM requires an explicit platform string that depends on the
+# runtime, since the default (rh8_x86_64) only provides the newer runtimes.
+LINUX_RUNTIME_PLATFORM = {
+    "3.8": "rh7_x86_64",
+    "3.11": "rh8_x86_64",
+}
+
 
 # All commands are implemented as subcommands of the cli group.
 @click.group()
@@ -88,9 +95,14 @@ def install(runtime, environment, editable):
         install_flake8_ets += "--editable "
     install_flake8_ets += "."
 
+    # On Linux the platform must be given explicitly (see above).
+    platform_flag = ""
+    if sys.platform.startswith("linux") and runtime in LINUX_RUNTIME_PLATFORM:
+        platform_flag = " --platform=" + LINUX_RUNTIME_PLATFORM[runtime]
+
     commands = [
             "{edm} environments create {environment}"
-            " --force --version={runtime}",
+            " --force --version={runtime}" + platform_flag,
             "{edm} install -y -e {environment} flake8",
             install_flake8_ets
         ]
