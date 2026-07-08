@@ -41,6 +41,32 @@ ETS_COPYRIGHT_HEADER_PATTERN = r"""
 ).lstrip()
 
 
+def end_year_from_string(value):
+    """
+    Convert a ``--copyright-end-year`` option value to a year.
+
+    Parameters
+    ----------
+    value : str
+        Either the string ``"current"`` (to indicate the current year)
+        or a string representation of an integer year, for example
+        ``"2020"``.
+
+    Returns
+    -------
+    int
+        The corresponding end year.
+
+    Raises
+    ------
+    ValueError
+        If the value is neither ``"current"`` nor a valid integer.
+    """
+    if value == "current":
+        return datetime.datetime.today().year
+    return int(value)
+
+
 def parse_year_range(header_text):
     """
     Parse a copyright year range from a header string.
@@ -188,19 +214,22 @@ class CopyrightHeaderExtension(object):
     def add_options(cls, option_manager):
         option_manager.add_option(
             "--copyright-end-year",
-            type=int,
+            type=str,
             metavar="year",
-            default=datetime.datetime.today().year,
+            default="current",
             parse_from_config=True,
             help=(
-                "Expected end year in copyright statements "
-                "(default is the current year)"
+                'Expected end year in copyright statements. This should be '
+                'either a four-digit year or the string "current" to use '
+                "the current year (which is the default)."
             ),
         )
 
     @classmethod
     def parse_options(cls, options):
-        cls.copyright_end_year = options.copyright_end_year
+        cls.copyright_end_year = end_year_from_string(
+            options.copyright_end_year
+        )
 
     def run(self):
         end_year = self.copyright_end_year

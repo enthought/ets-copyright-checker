@@ -8,11 +8,13 @@
 #
 # Thanks for using Enthought open source!
 
+import datetime
 import unittest
 
 from flake8_ets.copyright_header import (
     BadCopyrightEndYearError,
     copyright_header,
+    end_year_from_string,
     MissingCopyrightHeaderError,
 )
 
@@ -85,3 +87,18 @@ x = math.sqrt(1729)
             error.full_message.startswith(BadCopyrightEndYearError.code)
         )
         self.assertIn("end year (2010) should be 2020", error.full_message)
+
+
+class TestEndYearFromString(unittest.TestCase):
+    def test_explicit_year(self):
+        self.assertEqual(end_year_from_string("2020"), 2020)
+
+    def test_current(self):
+        self.assertEqual(
+            end_year_from_string("current"),
+            datetime.datetime.today().year,
+        )
+
+    def test_invalid_value(self):
+        with self.assertRaises(ValueError):
+            end_year_from_string("not-a-year")
