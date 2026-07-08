@@ -57,12 +57,6 @@ FLAKE8_TARGETS = [
     "setup.py",
 ]
 
-# Expected copyright end year, used for our own style checks. This is
-# deliberately pinned rather than tracking the current year, so that the
-# style checks don't start failing when the year rolls over. It should be
-# bumped (together with the copyright headers themselves) periodically.
-EXPECTED_COPYRIGHT_END_YEAR = 2022
-
 # On Linux, EDM requires an explicit platform string that depends on the
 # runtime, since the default (rh8_x86_64) only provides the newer runtimes.
 LINUX_RUNTIME_PLATFORM = {
@@ -139,7 +133,6 @@ def flake8(runtime, environment):
     parameters = get_parameters(runtime, environment)
     cmd = "{edm} run -e {environment} -- python -m flake8 ".format(
         **parameters)
-    cmd += "--copyright-end-year {} ".format(EXPECTED_COPYRIGHT_END_YEAR)
     cmd += " ".join(FLAKE8_TARGETS)
 
     if subprocess.call(cmd.split()):
