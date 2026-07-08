@@ -10,6 +10,7 @@
 
 import datetime
 import unittest
+from unittest import mock
 
 from flake8_ets.copyright_header import (
     BadCopyrightEndYearError,
@@ -94,11 +95,15 @@ class TestEndYearFromString(unittest.TestCase):
         self.assertEqual(end_year_from_string("2020"), 2020)
 
     def test_current(self):
-        self.assertEqual(
-            end_year_from_string("current"),
-            datetime.datetime.today().year,
-        )
+        # Patch the clock so the result is deterministic even if the test
+        # happens to run across a year boundary.
+        with mock.patch("flake8_ets.copyright_header.datetime") as mock_dt:
+            mock_dt.datetime.today.return_value = datetime.datetime(2023, 6, 1)
+            self.assertEqual(end_year_from_string("current"), 2023)
 
     def test_invalid_value(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as cm:
             end_year_from_string("not-a-year")
+        # The message should mention the accepted values.
+        self.assertIn("current", str(cm.exception))
+        self.assertIn("not-a-year", str(cm.exception))

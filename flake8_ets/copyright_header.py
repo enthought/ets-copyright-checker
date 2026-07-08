@@ -64,7 +64,13 @@ def end_year_from_string(value):
     """
     if value == "current":
         return datetime.datetime.today().year
-    return int(value)
+    try:
+        return int(value)
+    except ValueError:
+        raise ValueError(
+            'copyright-end-year must be "current" or a year, '
+            "got {!r}.".format(value)
+        ) from None
 
 
 def parse_year_range(header_text):
