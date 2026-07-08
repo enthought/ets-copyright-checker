@@ -3,14 +3,14 @@ name: Run test suite
 on: [pull_request, workflow_dispatch]
 
 env:
-  INSTALL_EDM_VERSION: 3.4.0
+  INSTALL_EDM_VERSION: 4.1.3
 
 jobs:
   test-with-edm:
     strategy:
       matrix:
         os: ['ubuntu-latest', 'windows-latest']
-        runtime: ['3.6', '3.8']
+        runtime: ['3.8', '3.11']
 
     runs-on: ${{ matrix.os }}
 
@@ -18,7 +18,7 @@ jobs:
     - name: Clone the source
       uses: actions/checkout@v3
     - name: Set up EDM
-      uses: enthought/setup-edm-action@v2
+      uses: enthought/setup-edm-action@v4.2
       with:
         edm-version: ${{ env.INSTALL_EDM_VERSION }}
     - name: Set up bootstrap Python

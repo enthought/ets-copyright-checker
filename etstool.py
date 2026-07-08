@@ -57,6 +57,13 @@ FLAKE8_TARGETS = [
     "setup.py",
 ]
 
+# On Linux, EDM requires an explicit platform string that depends on the
+# runtime, since the default (rh8_x86_64) only provides the newer runtimes.
+LINUX_RUNTIME_PLATFORM = {
+    "3.8": "rh7_x86_64",
+    "3.11": "rh8_x86_64",
+}
+
 
 # All commands are implemented as subcommands of the cli group.
 @click.group()
@@ -65,7 +72,7 @@ def cli():
 
 
 @cli.command()
-@click.option("--runtime", default="3.6", help="Python version to use")
+@click.option("--runtime", default="3.8", help="Python version to use")
 @click.option("--environment", default=None, help="EDM environment to use")
 @click.option(
     "--editable/--not-editable",
@@ -82,12 +89,17 @@ def install(runtime, environment, editable):
         install_flake8_ets += "--editable "
     install_flake8_ets += "."
 
+    # On Linux the platform must be given explicitly (see above).
+    platform_flag = ""
+    if sys.platform.startswith("linux") and runtime in LINUX_RUNTIME_PLATFORM:
+        platform_flag = " --platform=" + LINUX_RUNTIME_PLATFORM[runtime]
+
     commands = [
-            "{edm} environments create {environment}"
-            " --force --version={runtime}",
-            "{edm} install -y -e {environment} flake8",
-            install_flake8_ets
-        ]
+        "{edm} environments create {environment}"
+        " --force --version={runtime}" + platform_flag,
+        "{edm} install -y -e {environment} flake8",
+        install_flake8_ets,
+    ]
 
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
@@ -96,7 +108,7 @@ def install(runtime, environment, editable):
 
 
 @cli.command()
-@click.option("--runtime", default="3.6", help="Python version to use")
+@click.option("--runtime", default="3.8", help="Python version to use")
 @click.option("--environment", default=None, help="EDM environment to use")
 def test(runtime, environment):
     """ Run the test suite in a given environment.
@@ -112,7 +124,7 @@ def test(runtime, environment):
 
 
 @cli.command()
-@click.option("--runtime", default="3.6", help="Python version to use")
+@click.option("--runtime", default="3.8", help="Python version to use")
 @click.option("--environment", default=None, help="EDM environment to use")
 def flake8(runtime, environment):
     """
