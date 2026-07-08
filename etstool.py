@@ -57,6 +57,12 @@ FLAKE8_TARGETS = [
     "setup.py",
 ]
 
+# Expected copyright end year, used for our own style checks. This is
+# deliberately pinned rather than tracking the current year, so that the
+# style checks don't start failing when the year rolls over. It should be
+# bumped (together with the copyright headers themselves) periodically.
+EXPECTED_COPYRIGHT_END_YEAR = 2022
+
 
 # All commands are implemented as subcommands of the cli group.
 @click.group()
@@ -65,7 +71,7 @@ def cli():
 
 
 @cli.command()
-@click.option("--runtime", default="3.6", help="Python version to use")
+@click.option("--runtime", default="3.8", help="Python version to use")
 @click.option("--environment", default=None, help="EDM environment to use")
 @click.option(
     "--editable/--not-editable",
@@ -96,7 +102,7 @@ def install(runtime, environment, editable):
 
 
 @cli.command()
-@click.option("--runtime", default="3.6", help="Python version to use")
+@click.option("--runtime", default="3.8", help="Python version to use")
 @click.option("--environment", default=None, help="EDM environment to use")
 def test(runtime, environment):
     """ Run the test suite in a given environment.
@@ -112,7 +118,7 @@ def test(runtime, environment):
 
 
 @cli.command()
-@click.option("--runtime", default="3.6", help="Python version to use")
+@click.option("--runtime", default="3.8", help="Python version to use")
 @click.option("--environment", default=None, help="EDM environment to use")
 def flake8(runtime, environment):
     """
@@ -121,6 +127,7 @@ def flake8(runtime, environment):
     parameters = get_parameters(runtime, environment)
     cmd = "{edm} run -e {environment} -- python -m flake8 ".format(
         **parameters)
+    cmd += "--copyright-end-year {} ".format(EXPECTED_COPYRIGHT_END_YEAR)
     cmd += " ".join(FLAKE8_TARGETS)
 
     if subprocess.call(cmd.split()):
