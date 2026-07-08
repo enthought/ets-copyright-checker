@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Clone the source
-      uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
     - name: Set up EDM
       uses: enthought/setup-edm-action@e68a4e0282298d695020fb21b4d3e93c3ac3c11f # v4.2
       with:
