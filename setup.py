@@ -52,7 +52,7 @@ if __name__ == "__main__":
             ],
         },
         classifiers=[
-            "Development Status :: 3 - Alpha",
+            "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
             "Operating System :: OS Independent",
             "Programming Language :: Python :: 3",
