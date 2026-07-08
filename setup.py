@@ -54,10 +54,9 @@ if __name__ == "__main__":
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
-            "License :: OSI Approved :: BSD License",
             "Operating System :: OS Independent",
             "Programming Language :: Python :: 3",
         ],
-        python_requires=">=3.5",
-        license="BSD",
+        python_requires=">=3.8",
+        license="BSD-3-Clause",
     )
