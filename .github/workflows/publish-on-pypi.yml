@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   release:
     types: [published]
+  # TEMPORARY: smoke-test the workflow on PRs. Revert before merging.
+  pull_request:
 
 jobs:
   build-and-upload:
@@ -28,4 +30,5 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         python -m twine check --strict dist/*
-        python -m twine upload dist/*
+        # TEMPORARY: upload disabled for smoke test. Revert before merging.
+        # python -m twine upload dist/*
