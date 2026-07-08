@@ -95,11 +95,11 @@ def install(runtime, environment, editable):
         platform_flag = " --platform=" + LINUX_RUNTIME_PLATFORM[runtime]
 
     commands = [
-            "{edm} environments create {environment}"
-            " --force --version={runtime}" + platform_flag,
-            "{edm} install -y -e {environment} flake8",
-            install_flake8_ets
-        ]
+        "{edm} environments create {environment}"
+        " --force --version={runtime}" + platform_flag,
+        "{edm} install -y -e {environment} flake8",
+        install_flake8_ets,
+    ]
 
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
