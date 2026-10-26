@@ -3,7 +3,7 @@ name: Run test suite
 on: [pull_request, workflow_dispatch]
 
 env:
-  INSTALL_EDM_VERSION: 4.1.3
+  INSTALL_EDM_VERSION: 4.1.7
 
 jobs:
   test-with-edm:
