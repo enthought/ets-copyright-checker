@@ -18,7 +18,7 @@ jobs:
     - name: Clone the source
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Set up EDM
-      uses: enthought/setup-edm-action@e68a4e0282298d695020fb21b4d3e93c3ac3c11f # v4.2
+      uses: enthought/setup-edm-action@1e8e9b1d87180b38da1607d3ea52b3930ccdf25f # v4.3
       with:
         edm-version: ${{ env.INSTALL_EDM_VERSION }}
     - name: Set up bootstrap Python
